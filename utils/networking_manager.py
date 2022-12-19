@@ -327,27 +327,29 @@ tomide_adeoye_contact = """ \n
 Tomide Adeoye.
 M: +234 818 192 7251
 
-LinkedIn: https://www.linkedin.com/in/tomide-adeoye-828604129/
 Twitter: https://twitter.com/_Tomide
 GitHub: https://github.com/tomideadeoye
+Website: https://tomide-adeoye.netlify.app
 Medium: https://medium.com/@tomideadeoye/lists
+LinkedIn: https://www.linkedin.com/in/tomide-adeoye-828604129
 YouTube: https://www.youtube.com/channel/UCVQDiC3kbc6lT1JNrQGicAg
-Website: https://tomide-adeoye.netlify.app/
+
 """
 
 verbose_tomide_adeoye_contact = """ \n
 Tomide Adeoye.
 M: +234 818 192 7251
-Portfolio: https://tomide-adeoye.netlify.app/
-LinkedIn: https://www.linkedin.com/in/tomide-adeoye-828604129/
+
 Twitter: https://twitter.com/_Tomide
 GitHub: https://github.com/tomideadeoye
+Website: https://tomide-adeoye.netlify.app
 Medium: https://medium.com/@tomideadeoye/lists
+LinkedIn: https://www.linkedin.com/in/tomide-adeoye-828604129
 YouTube: https://www.youtube.com/channel/UCVQDiC3kbc6lT1JNrQGicAg
 
 SOME PROJECT LINKS 🧑🏿‍💻:
+Verify Pro: https://verifypro.netlify.app/ (React JS, Firebase)
 Unilever Compliance: https://unicomreport.netlify.app/ (React JS)
 Referral Management: https://dexter.dukka.com/ (React JS, Django)
-Verify Pro: https://verifypro.netlify.app/ (React JS, Firebase)
 Book keeping mobile app: https://play.google.com/store/apps/details?id=com.dukka.dukka (Flutter, Django)
 """

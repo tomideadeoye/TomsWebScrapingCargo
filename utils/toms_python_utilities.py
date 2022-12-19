@@ -93,6 +93,15 @@ def move_file(dest, entry, name):
 def tomide_bs4_make_soup(url, duration, type, scroll):
 
     soup = []
+    option = webdriver.ChromeOptions()
+    # option.add_argument("headless")
+    # option.add_argument("window-size=1920,1080")
+    # option.add_argument("disable-gpu")
+    # option.add_argument(" — no-sandbox")
+    # option.add_argument(" — disable-dev-shm-usage")
+    # options.add_argument("--ignore-certificate-errors")
+    # options.add_argument("--incognito")
+    # options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36')
 
     if type == "static":
         req = Request(url , headers={'User-Agent': 'Mozilla/5.0'})
@@ -115,19 +124,17 @@ def tomide_bs4_make_soup(url, duration, type, scroll):
                 if new_height == last_height:
                     break
                 last_height = new_height
-
-        html = driver.page_source
-        soup = BeautifulSoup(html, 'html.parser')
+        soup = BeautifulSoup(driver.page_source, 'html.parser')
         driver.quit()
         return soup
 
     else: 
         options = webdriver.ChromeOptions()
         options.add_argument("user-data-dir=/Users/tomideisawesome/Library/Application Support/Google/Chrome")
-        # options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36')
         driver = webdriver.Chrome(options=options)
         driver.get(url)
         soup = BeautifulSoup(driver.page_source, 'html.parser')
+        driver.quit()
     return soup
 
 def email_extractor(line):

@@ -1,0 +1,3 @@
+npx create-next-app@latest --ts
+npm sb init --builder webpack5 // storybook
+npm run storybook

@@ -1,0 +1,94 @@
+virtualenv -p python3 venv
+source venv/bin/activate
+
+pip install django && djangorestframwork
+
+pip install djangorestframework markdown  django-filter django-cors-headers django-extensions
+django-admin startproject backend .
+python manage.py runserver
+
+django-admin startapp meris_transact
+python manage.py startapp store
+# create models
+# add meta class to models for ordering and plural name
+# export secrets from .env file
+# add config to settings.py using os.environ.get("key_name")
+
+
+git subtree push --prefix backend heroku master
+
+add url mappings
+
+
+python3 -m pip install -r requirements.txt
+python manage.py createsuperuser --email tomideadeoye@gmail.com --user
+python3 manage.py makemigrations
+
+python3 manage.py sqlmigrate store 0001
+pip install psycopg2
+
+createuser -U postgres -s TOMIDE
+createdb TOMIDE      
+python3 manage.py shell
+
+Products.objects.all()[:5]
+Products.objects.filter(id=1)
+Products.objects.filter(id=1).update(price=1000)
+Products.objects.filter(stock_count__gt= 0)
+Products.objects.filter(id=1).delete()
+Products.objects.count()
+Products.object.filter(name__contains="a", price_lt= 100)
+Products.objects.all().last()
+Products.objects.all().order_by('price').first()
+Products.objects.order_by('price').values("name", "price")
+Products.objects.order_by('price').values_list("name", "price")
+Products.objects.filter(category__name__contains="gear")
+Products.objects.filter(category__name__contains="gear").distinct
+ProductImage.objects.filter(product__category__name = "Socks", product__stock_count__gt=0)
+
+# get one object
+Products.objects.get(pk=5)
+Products.objects.get(name__contains='met')
+
+
+# all queryset methods are available on the Manager 
+Products.objects.count()
+
+# return manay to manay relationships of an object
+p.category_set.all() 
+
+p.count()
+p.exclude(stock_count__gt=5)
+
+# shows all values in database
+.values 
+
+# aggregation 
+Product.objects.aggregate (Avg('price'))
+Category.objects.annotate(avg_price =Avg('products__price')).values()
+Category.objects.annotate(avg_price =Avg('products__price')).order_by('avg_price')
+Products.objects.annotate(cat_count = Count('categories')).filter(cat_count__gt=1)
+
+
+
+# f fucntions to reference item in filed... like the current item in a loop
+Category.objects.get(name='Climbing grea').products.update(price=F('price')*.9)
+Products.objects.annotate(price_euro=F('price') * 1.1).values()
+
+# q functions for more sophisticated lookups
+in_stock = Q(stock_count__gt=0)
+no_img = Q(images=None)
+Products.objects.filter(in_stock | no_img)
+~ negation
+& combine 
+
+
+# get absolute url
+# slugify to remove issues with url naming of items being svaed in database
+custom manager class to do something with an item being stored in the database
+
+
+# migrations 
+python manage.py showmigrations store
+python manage.py showmigrations  -h
+python sqlmigrate -h

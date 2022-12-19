@@ -1,0 +1,3 @@
+
+# Could not build the application for the simulator.
+rm ios/Podfile && flutter pub upgrade && flutter pub get && cd ios && pod update && flutter clean && flutter run

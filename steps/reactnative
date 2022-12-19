@@ -1,0 +1,52 @@
+npm install --gloabal expo-cli
+sudo npm install --global expo-cli
+expo init name-of-project && cd name-of-project && expo start
+# npx create-expo-app name-of-project
+
+# react native navigation=============================================================
+npx expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view @react—navigation/native @react—navigation/stack react—native—screens  
+import {NavigationContainer} from "@react-navigation/native";
+
+.zprofile or .zshrc
+
+
+gradlew bundleRelease
+
+# generate upload key
+/usr/libexec/java_home 
+/System/Library/Frameworks/JavaVM.framework/
+\Program Files\Java\jdk-X.X.X\bin
+
+keytool -genkeypair -v -keystore globoticket-upload-key.keystore -alias globoticket -keyalg RSA -keysize 2048 -validity 10000
+
+// add this to android/gradle.properties
+MYAPP_RELEASE_STORE_FILE=globoticket-upload-key.keystore
+MYAPP_RELEASE_KEY_ALIAS=globoticket
+MYAPP_RELEASE_STORE_PASSWORD=*****
+MYAPP_RELEASE_KEY_PASSWORD=*****
+
+# configure gradle=============================================================
+cd android/app && open build.gradle
+add this to the bottom of the file: replace debug with release
+
+signingConfigs {
+    release {
+        if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+            storeFile file(MYAPP_RELEASE_STORE_FILE)
+            storePassword MYAPP_RELEASE_STORE_PASSWORD
+            keyAlias MYAPP_RELEASE_KEY_ALIAS
+            keyPassword
+        }
+    }
+}
+
+in buildTypes, replace signingConfig with signingConfigs.release
+
+# GENERATE APK=============================================================
+
+cd android && gradlew bundleRelease
+
+android/app/build/outputs/bundle/release/app-release.aab //apk location 
+
+cd ../ && react-native run-android --variant=release //run release apk
+

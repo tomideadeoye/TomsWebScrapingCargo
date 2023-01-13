@@ -41,8 +41,7 @@ My name is Tomide, and I am an engineer with a business background from NUTM (nu
 Outside of my engineering experience, I have done technical research with Blockchain organisations like the Smart Contract Research Forumn (Canada) and Web3Bridge. I have also started a startup and have been involved in the development of a few more while leveraging my business mentorships @ NUTM from minds like Soumitra Dutta (Dean, Oxford Business School) and Maurizio Caio (Partner, TLcom Capital) and more. My studies at NUTM, focusing on tech, strategy, and more, my engineering experience at Dukka, my research experience at SCRF, and my collaborations with diverse businesses (https://bit.ly/tomide-bio) make me a highly qualified candidate to function in multiple facets of a startup.
 """ 
     about_company = f"""I admire your {admiration}."""
-    cta = f"""
-I would love to work with {company} and deploy the aggregate of my experiences toward skyrocketing your product development speed and profitability in 2023. 
+    cta = f"""I would love to work with {company} and deploy the aggregate of my experiences toward skyrocketing your product development speed and profitability in 2023. 
 
 Can we have a quick chat for me to show you what I can do and how I plan to add value to {company}?
 

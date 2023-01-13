@@ -26,22 +26,32 @@ I hope to hearing from you soon!
 Best wishes,
 """
 
-def person_frontend_engineer_application(contact_name, company):
-    return f"""Dear {contact_name},
-I trust your year has been amazing.
+def person_frontend_engineer_application(contact_name, company, admiration):
+    about_me =  f"""Dear {contact_name},
+I hope you are having a great week.
 
-I am Tomide, a software engineer at an African bookkeeping and payment processing company; I lead frontend development. Solutions I have built have helped my company track user signups and draw insights from different forms of userdata. Other softwares I have built include PicAndEdits, a software that leverages PicsArt APIs for AI powered image edits and several web scrapers targeting companies like PropertyPro and a lot more. 
+My name is Tomide, and I am an engineer with a business background from NUTM (nutmng.org). I currently work with an African bookkeeping and payment processing company; my software tracks the company's customer signups, churn rate, ltv... I also function across the mobile and backend teams. Other software I have built include (links in signature):
 
-I am also a research fellow at the Smart Contract Research Forum (SCRF), where have written 4 technical research papers on smart contracts and leveraged my data analysis skills to help the company track top performing research across their website. 
+- PicAndEdits (React JS image transformation tool) 
+- A bookkeeping mobile app (Flutter)
+- Unicom: a compliance software for Unilever/JEE (React JS)
+- Juice Spend: Payment startup landing pages (React JS)
+- Python email leads generator and web scrapers targeting companies like PropertyPro and more. 
 
-I would love to join your team and identify all ways I could help you build. I would appreciate a few minutes of your time to show you what I can do and how I plan to add value to {company}. 
+Outside of my engineering experience, I have done technical research with Blockchain organisations like the Smart Contract Research Forumn (Canada) and Web3Bridge. I have also started a startup and have been involved in the development of a few more while leveraging my business mentorships @ NUTM from minds like Soumitra Dutta (Dean, Oxford Business School) and Maurizio Caio (Partner, TLcom Capital) and more. My studies at NUTM, focusing on tech, strategy, and more, my engineering experience at Dukka, my research experience at SCRF, and my collaborations with diverse businesses (https://bit.ly/tomide-bio) make me a highly qualified candidate to function in multiple facets of a startup.
+""" 
+    about_company = f"""I admire your {admiration}."""
+    cta = f"""
+I would love to work with {company} and deploy the aggregate of my experiences toward skyrocketing your product development speed and profitability in 2023. 
 
-Please find below my portfolio and a copy of my CV.
+Can we have a quick chat for me to show you what I can do and how I plan to add value to {company}?
 
-I can't wait to hear from you!
-
-Best wishes,
+Regards,
 """
+    if admiration == "":
+        about_company = ""
+
+    return about_me + about_company + cta
 
 def person_python_engineer_application(company):
     return f"""Dear Team,
@@ -265,7 +275,6 @@ I'd love to connect, talk and work with you."""
 
 
     def create_cover_letter():
-        print(template)
         document = Document()
         document.add_heading('Tomide Adeoye Cover Letter', 0)
         indexPos = application_type_templates.index(template)
@@ -295,30 +304,31 @@ name, company, advice = "Denise", "BH", "Can I reach you for advice & mentorship
 content = F"""Hello {name},
 I am Tomide; a software engineer with a tech & management postgraduate certification. I am also a writer at a Technology Research Organisation. I am looking to work with amazing people on all kinds of projects.\n"""
 
-pyperclip.copy(content + advice), print(content + advice)
 
 extra = F"""Do you have any opportunities at {company} for someone like me? If not, can I still reach out for advice & mentorship and also sparingly send you projects I am building? 
 
 Also, here is my portfolio/resume (https://tomide-adeoye.netlify.app) - it has all information about me."""
 
-pyperclip.copy(content + extra), print(content + extra)
-
 
 def vc_fund_template(name, company):
     return F"""
 Hello {name},
+I hope your year has been amazing! 
 
-I hope your year has been genuinely amazing! I have been excited to follow {company}'s achievement over the years, especially looking at the verticals and industries you play in. I want to be part of how we increase {company}'s profitability in 2023.
+I have been excited to follow {company}'s achievements and the successes of your portfolio companies. I want to be part of how {company} increases profitability in 2023.
 
-My name is Tomide; I am a software engineer with industry experience in banking, legal, research, asset management, and consulting. I also recently completed a postgraduate program in one of Africa's finest Management and Tech Institutions, NUTM and I have held leadership positions in two organisations. My unique blend of experiences with ogansisations like PwC, KPMG, Smart Contract Research Forum, Providus, VFD and startups I have consulted with across all stages of their lifecycle have allowed me play in all facets of company operations and given me very unique insights into the blindspots of several companies. I find that I am able to assess strategies and points of failure from a very diverse standpoints and I excel in strategy, management and analytics. 
+My name is Tomide; I am an engineer with experience in research, compliance, finance, and consulting. I also recently completed a postgraduate program in one of Africa's finest Management and Tech Institutions, NUTM. Where I was taught by minds like Soumitra Dutta (Dean, Saïd Business School), Maurizio Caio (partner, TLcom Capital) and more.
 
-I am passionately searching out opportunities to deploy the aggregate of my valubale experiences towards solving the most critical problems facing all kinds of businesses, particularly purpose-driven startups in emerging markets promoting societal and environmental returns.
+My unique blend of experiences leading two teams and working with ogansisations like the Smart Contract Research Forum, PwC, KPMG, VFD Group and startups I have consulted with have allowed me play in all facets of company operations and given me very unique insights. I can assess business strategy in terms of software, business model, regulations... 
 
-How can I work with you and your team in 2023 toward achieving your objectives? 
+I have a draft presentation at https://bit.ly/tomide-bio providing information about me, showing how I have asisted businesses and how I can contribute to {company}'s successes through:
+- data analytics, web scraping and automation for business intelligence,
+- investment research, strategy and writing for thought leadership,
+- design, frontend engineering and data visualisation to allow big picture view of data/decisions
 
-I have a draft document below providing more information about me and showing how I have been assisting businesses in analytics, engineering and research roles. How can I meet with your team to show you how I can help you build?
+I would love to work with {company} in 2023 and deploy my experiences towards solving the most critical startups challenges. How can I work with you toward achieving your 2023 objectives? 
 
-Cheers,
+Regards,
 Tomide.
 """
 
@@ -327,27 +337,26 @@ tomide_adeoye_contact = """ \n
 Tomide Adeoye.
 M: +234 818 192 7251
 
-Twitter: https://twitter.com/_Tomide
 GitHub: https://github.com/tomideadeoye
 Website: https://tomide-adeoye.netlify.app
 Medium: https://medium.com/@tomideadeoye/lists
 LinkedIn: https://www.linkedin.com/in/tomide-adeoye-828604129
-YouTube: https://www.youtube.com/channel/UCVQDiC3kbc6lT1JNrQGicAg
-
+CV: https://drive.google.com/file/d/11BIzMXoQcLlLRMbb9Oa091pCSjgqOdMG/view?usp=sharing
 """
 
 verbose_tomide_adeoye_contact = """ \n
 Tomide Adeoye.
 M: +234 818 192 7251
 
+Website: https://tomide-adeoye.netlify.app
 Twitter: https://twitter.com/_Tomide
 GitHub: https://github.com/tomideadeoye
-Website: https://tomide-adeoye.netlify.app
 Medium: https://medium.com/@tomideadeoye/lists
 LinkedIn: https://www.linkedin.com/in/tomide-adeoye-828604129
 YouTube: https://www.youtube.com/channel/UCVQDiC3kbc6lT1JNrQGicAg
 
 SOME PROJECT LINKS 🧑🏿‍💻:
+Juice Spend: https://tomidejuiceui.netlify.app/ (React JS)
 Verify Pro: https://verifypro.netlify.app/ (React JS, Firebase)
 Unilever Compliance: https://unicomreport.netlify.app/ (React JS)
 Referral Management: https://dexter.dukka.com/ (React JS, Django)

@@ -26,13 +26,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def createCsvFile(filename, rose, header = None): # createCsvFile('scrfabove103.csv', list, header_list)
-    with open(filename, 'w') as f:
-        write = csv.writer(f)
-        write.writerow(header)
-        write.writerows(rose)
-
-
 def unique(list1):
     unique_list = []
     for x in list1:
@@ -159,8 +152,15 @@ def mail_checker(email):
 
 
 def emailGenerator(firstname, lastname, company_domain):
-    if company_domain.startswith("www."):
-        company_domain = company_domain[4:]
+    if '/' in company_domain:
+        company_domain = company_domain.replace('/', '')
+    if 'https:' in company_domain:
+        company_domain = company_domain.replace('https:', '')
+    if 'http:' in company_domain:
+        company_domain = company_domain.replace('http:', '')
+    if 'www.' in company_domain:
+        company_domain = company_domain.replace('www.', '')
+
     print ("Generating email list for", firstname, lastname)
     emailList = []
 
@@ -214,3 +214,88 @@ def google_search(query_for_google):
             if google_response['error']['code'] == 429:
                 continue
     print("NO KEYS WORKED", google_response['error']['message'])
+
+
+
+def txt_db_maker(db, content):
+    today = str(datetime.date.today())
+    today_2 = f"{today} "
+    content = bytes(today_2,'utf-8')
+    year_str = str(datetime.datetime.now().year)
+    year_edit = bytes(year_str,'utf-8').decode('utf-8')
+    date_str = str(datetime.datetime.now().day)
+    date_edit = bytes(date_str,'utf-8').decode('utf-8')
+    edit = {"1":"01",
+            "2":"02",
+            "2":"03",
+            "4":"04",
+            "5":"05",
+            "6":"06",
+            "7":"07",
+            "8":"08",
+            "9":"09",}
+    try:
+        file = open(f"{db}.txt", "x")
+        # messenger()
+        file.write(today_2)
+        file.close()
+    except Exception as e:
+        file = open(f"{db}.txt", "a+b")
+        try:
+            try:
+                file.seek(-11,2) # seek will not work in negative in text mode, only in byte mode
+            except OSError as e:
+                print(e)
+                # messenger()
+                file.write(content)
+                file.close()
+                os._exit(0)
+            year = file.read(10).decode('utf-8')
+            file.seek(-11,2)
+            date = file.read(10).decode('utf-8')
+            if year_edit != year[:4]:
+                file.close()
+                file = open(f"{db}.txt", "wb")
+                file.close()
+                file = open(f"{db}.txt", "a+b")
+                # messenger()
+                file.write(content)
+                file.close()
+            for x in edit.keys():
+                if x == date_edit:
+                    date_edit = edit.get(x)
+                    break
+            if date_edit != date[8:14]:
+                # messenger()
+                file.write(content)
+                file.close()
+                os._exit(0)
+        except Exception as e:
+            print(e)
+
+
+def create_csv_file(filename, rows): # createCsvFile('scrfabove103.csv', list, header_list)
+    pd.DataFrame(rows).to_csv(f"{filename}.csv", mode='a', header=False, index=False)  
+
+
+# def googleTextToSpeech(text):
+#     """Synthesizes speech from the input string of text."""
+#     from google.cloud import texttospeech
+
+#     client = texttospeech.TextToSpeechClient()
+
+#     input_text = texttospeech.SynthesisInput(text=text)
+
+#     # Note: the voice can also be specified by name.
+#     # Names of voices can be retrieved with client.list_voices().
+#     voice = texttospeech.VoiceSelectionParams(
+#         language_code="en-US",
+#         ss
+
+
+# from gtts import gTTS
+# from playsound import playsound
+# text=input("Enter a sentence : ")
+# speech=gTTS(text=text,lang="en")        #converting to mp3 in English
+# speech.save(r"D:\speech_en.mp3")        #saving the .mp3 file in the given directory
+# playsound(r"D:\speech_en.mp3")          #playing the .mp3 file

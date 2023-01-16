@@ -30,17 +30,19 @@ def person_frontend_engineer_application(contact_name, company, admiration):
     about_me =  f"""Dear {contact_name},
 I hope you are having a great week.
 
-My name is Tomide, and I am an engineer with a business background from NUTM (nutmng.org). I currently work with an African bookkeeping and payment processing company; my software tracks the company's customer signups, churn rate, ltv... I also function across the mobile and backend teams. Other software I have built include (links in signature):
+My name is Tomide, and I am an engineer with a business background from NUTM (nutmng.org). I currently work with an African bookkeeping and payment processing company; my software tracks the company's customer signups, churn rate, ltv... I also function across the mobile and backend teams. Other interesting software I have built include (links in signature):
 
-- PicAndEdits (React JS image transformation tool) 
-- A bookkeeping mobile app (Flutter)
-- Unicom: a compliance software for Unilever/JEE (React JS)
-- Juice Spend: Payment startup landing pages (React JS)
-- Python email leads generator and web scrapers targeting companies like PropertyPro and more. 
+- PicAndEdits (React image transformation tool) 
+- Bookkeeping mobile app (Flutter)
+- Unicom: a compliance software for Unilever/JEE (React)
+- Juice Spend: Payment startup landing pages (React)
+- Python email leads generator and web scrapers. 
 
 Outside of my engineering experience, I have done technical research with Blockchain organisations like the Smart Contract Research Forumn (Canada) and Web3Bridge. I have also started a startup and have been involved in the development of a few more while leveraging my business mentorships @ NUTM from minds like Soumitra Dutta (Dean, Oxford Business School) and Maurizio Caio (Partner, TLcom Capital) and more. My studies at NUTM, focusing on tech, strategy, and more, my engineering experience at Dukka, my research experience at SCRF, and my collaborations with diverse businesses (https://bit.ly/tomide-bio) make me a highly qualified candidate to function in multiple facets of a startup.
+
 """ 
-    about_company = f"""I admire your {admiration}."""
+    about_company = f"""I admire how you {admiration}"""
+
     cta = f"""I would love to work with {company} and deploy the aggregate of my experiences toward skyrocketing your product development speed and profitability in 2023. 
 
 Can we have a quick chat for me to show you what I can do and how I plan to add value to {company}?

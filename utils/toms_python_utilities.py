@@ -1,4 +1,3 @@
-import csv
 import os
 from urllib.request import Request, urlopen
 import pandas as pd
@@ -11,11 +10,6 @@ import datetime
 from os import rename
 from os.path import splitext, exists, join
 from shutil import move
-from pathlib import Path
-from email.mime.multipart import MIMEMultipart
-from email.mime.base import MIMEBase
-from email.mime.text import MIMEText
-from email import encoders
 import time
 from selenium import webdriver
 import re
@@ -42,29 +36,6 @@ def abstractedReadToDataFrame(filename):
     df = df.reset_index(drop=True)
     return df
 
-
-def send_email(email_receiver, subject, body, files):
-    now = datetime.datetime.now()
-    email_sender =  os.getenv('email_sender')
-    email_password = os.getenv('email_password')
-    em = EmailMessage()
-    # em = MIMEMultipart()
-    em['From'], em['To'], em['Subject'] = email_sender, email_receiver, subject 
-    em.set_content(body)
-
-    for path in files:
-        with open(path, 'rb') as file:
-            file_data = file.read()
-            file_name = file.name.split('/')[-1]
-        
-        em.add_attachment(file_data, maintype='application', subtype='octet-stream', filename=file_name)
-
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
-        smtp.login(email_sender, email_password)
-        smtp.send_message(em)
-        smtp.quit()
-
 def make_unique(dest, name):
     filename, extension = splitext(name)
     counter = 1
@@ -83,123 +54,163 @@ def move_file(dest, entry, name):
     move(entry, dest)
 
 
-def tomide_bs4_make_soup(url, duration, type, scroll):
-
-    soup = []
-    option = webdriver.ChromeOptions()
-    # option.add_argument("headless")
-    # option.add_argument("window-size=1920,1080")
-    # option.add_argument("disable-gpu")
-    # option.add_argument(" — no-sandbox")
-    # option.add_argument(" — disable-dev-shm-usage")
-    # options.add_argument("--ignore-certificate-errors")
-    # options.add_argument("--incognito")
-    # options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36')
-
-    if type == "static":
-        req = Request(url , headers={'User-Agent': 'Mozilla/5.0'})
-        webpage = urlopen(req).read()
-        soup = BeautifulSoup(webpage, 'html.parser')
-        return soup
-
-    elif type == "incognito":
-        driver = webdriver.Chrome()
-        driver.get(url)
-        # time.sleep(duration)
-
-        if scroll == True:
-            SCROLL_PAUSE_TIME = 10
-            last_height = driver.execute_script("return document.body.scrollHeight")   # Get scroll height
-            while True:
-                driver.execute_script("window.scrollTo(0, document.body.scrollHeight);") # Scroll down to bottom
-                time.sleep(SCROLL_PAUSE_TIME)  # Wait to load page
-                new_height = driver.execute_script("return document.body.scrollHeight") # Calculate new scroll height and compare with last scroll height
-                if new_height == last_height:
-                    break
-                last_height = new_height
-        soup = BeautifulSoup(driver.page_source, 'html.parser')
-        driver.quit()
-        return soup
-
-    else: 
-        options = webdriver.ChromeOptions()
-        options.add_argument("user-data-dir=/Users/tomideisawesome/Library/Application Support/Google/Chrome")
-        driver = webdriver.Chrome(options=options)
-        driver.get(url)
-        soup = BeautifulSoup(driver.page_source, 'html.parser')
-        driver.quit()
-    return soup
-
-def email_extractor(line):
-    return re.findall(r'[\w.+-]+@[\w-]+\.[\w.-]+', line)
-
-
-def mail_checker(email): 
-    domain_name = email.split('@')[1]
-    records = dns.resolver.query(domain_name, 'MX')
-    mxRecord = records[0].exchange
-    mxRecord = str(mxRecord)
-    host = socket.gethostname()
-    server = smtplib.SMTP()
-    server.set_debuglevel(0)
-    server.connect(mxRecord)
-    server.helo(host)
-    server.mail('me@domain.com')
-    code, message = server.rcpt(str(email))
-    server.quit()
-    if code == 250:
-        return email
-
-
-def emailGenerator(firstname, lastname, company_domain):
-    if '/' in company_domain:
-        company_domain = company_domain.replace('/', '')
-    if 'https:' in company_domain:
-        company_domain = company_domain.replace('https:', '')
-    if 'http:' in company_domain:
-        company_domain = company_domain.replace('http:', '')
-    if 'www.' in company_domain:
-        company_domain = company_domain.replace('www.', '')
-
-    print ("Generating email list for", firstname, lastname)
-    emailList = []
-
-    emailList.append(firstname + "@" + company_domain)
-    emailList.append(lastname + "@" + company_domain)
-
-    emailList.append(firstname + lastname + "@" + company_domain)
-    emailList.append(lastname + firstname + "@" + company_domain)
-
-    emailList.append(firstname + "." + lastname + "@" + company_domain) # tomide.adeoye@merislabs.com
-    emailList.append(lastname + "." + firstname + "@" + company_domain) # adeoye.tomide@merislabs.com
-
-    emailList.append(firstname + lastname[0] + "@" + company_domain) # tomidea@merislabs.com
-    emailList.append(lastname[0] + firstname + "@" + company_domain) # atomide@merislabs.com
-   
-    emailList.append(firstname[0] + lastname + "@" + company_domain) # tadeoye@merislabs.com
-    emailList.append(lastname + firstname[0] + "@" + company_domain) # adeoyet@merislabs.com
-
-    emailList.append(firstname + "." + lastname[0] + "@" + company_domain) # tomidea@merislabs.com
-    emailList.append(lastname[0] + "." + firstname + "@" + company_domain) # atomide@merislabs.com
-   
-    emailList.append(firstname[0] + "." + lastname + "@" + company_domain) # tadeoye@merislabs.com
-    emailList.append(lastname + "." + firstname[0] + "@" + company_domain) # adeoyet@merislabs.com
-
-    emailList.append(firstname[0] + lastname[0] + "@" + company_domain) # ta@merislabs.com
-    emailList.append(lastname[0] + firstname[0] + "@" + company_domain) # ta@merislabs.com
+class TomideBeautifulSoupUtils:
+    def __init__(self, url, type, scroll):
+        self.url = url
+        self.type = type
+        self.scroll = scroll
     
-    emailList.append(lastname[0] + "." +  firstname[0] + "@" + company_domain) #t.a@meris.com
-    emailList.append(firstname[0] + "." +  lastname[0] + "@" + company_domain) #t.a@meris.com
+    @staticmethod
+    def get_classes(soup):
+        class_list = []
+        tags = {tag for tag in soup.find_all()}
+        for tag in tags:
+            if tag.has_attr( "class" ):
+                if len( tag['class'] ) != 0:
+                    if tag['class'][0] not in class_list:
+                        class_list.append( tag['class'][0])
+        return class_list
+
+    def tomide_bs4_make_soup(url, type, scroll):
+        option = webdriver.ChromeOptions()
+        # option.add_argument("headless")
+        # option.add_argument("window-size=1920,1080")
+        # option.add_argument(" — disable-dev-shm-usage")
+        # options.add_argument("--ignore-certificate-errors")
+        # options.add_argument("--incognito")
+        # options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36')
+
+        if type == "static":
+            req = Request(url , headers={'User-Agent': 'Mozilla/5.0'})
+            webpage = urlopen(req).read()
+            return BeautifulSoup(webpage, 'html.parser')
+
+        elif type == "incognito":
+            driver = webdriver.Chrome()
+            driver.get(url)
+            if scroll == True:
+                SCROLL_PAUSE_TIME = 10
+                last_height = driver.execute_script("return document.body.scrollHeight")   # Get scroll height
+                while True:
+                    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);") # Scroll down to bottom
+                    time.sleep(SCROLL_PAUSE_TIME)  # Wait to load page
+                    new_height = driver.execute_script("return document.body.scrollHeight") # Calculate new scroll height and compare with last scroll height
+                    if new_height == last_height:
+                        break
+                    last_height = new_height
+            driver.quit()
+            return BeautifulSoup(driver.page_source, 'html.parser')
+        else: 
+            options = webdriver.ChromeOptions()
+            options.add_argument("user-data-dir=/Users/tomideisawesome/Library/Application Support/Google/Chrome")
+            driver = webdriver.Chrome(options=options)
+            driver.get(url)
+            driver.quit()
+            return BeautifulSoup(driver.page_source, 'html.parser')
+
+
+
+
+
+class TomsEmailUtilities:
+
+    def __init__(self, firstname, lastname, company_domain):
+        self.firstname = firstname
+        self.lastname = lastname
+        self.company_domain = company_domain
+        
+    @staticmethod
+    def email_extractor(line):
+        return re.findall(r'[\w.+-]+@[\w-]+\.[\w.-]+', line)
+
+    @staticmethod
+    def mail_checker(email): 
+        domain_name = email.split('@')[1]
+        records = dns.resolver.query(domain_name, 'MX')
+        mxRecord = records[0].exchange
+        mxRecord = str(mxRecord)
+        host = socket.gethostname()
+        server = smtplib.SMTP()
+        server.set_debuglevel(0)
+        server.connect(mxRecord)
+        server.helo(host)
+        server.mail('me@domain.com')
+        code, message = server.rcpt(str(email))
+        server.quit()
+        if code == 250:
+            return email
+            
+    @classmethod
+    def emailGenerator(cls, firstname, lastname, company_domain):
+        if '/' in company_domain:
+            company_domain = company_domain.replace('/', '')
+        if 'https:' in company_domain:
+            company_domain = company_domain.replace('https:', '')
+        if 'http:' in company_domain:
+            company_domain = company_domain.replace('http:', '')
+        if 'www.' in company_domain:
+            company_domain = company_domain.replace('www.', '')
+
+        print ("Generating email list for", firstname, lastname)
+        emailList = []
+
+        emailList.append(firstname + "@" + company_domain)
+        emailList.append(lastname + "@" + company_domain)
+
+        emailList.append(firstname + lastname + "@" + company_domain)
+        emailList.append(lastname + firstname + "@" + company_domain)
+
+        emailList.append(firstname + "." + lastname + "@" + company_domain) # tomide.adeoye@merislabs.com
+        emailList.append(lastname + "." + firstname + "@" + company_domain) # adeoye.tomide@merislabs.com
+
+        emailList.append(firstname + lastname[0] + "@" + company_domain) # tomidea@merislabs.com
+        emailList.append(lastname[0] + firstname + "@" + company_domain) # atomide@merislabs.com
     
-    valid = []
-    for email in emailList:
-        valid.append(mail_checker(email))
+        emailList.append(firstname[0] + lastname + "@" + company_domain) # tadeoye@merislabs.com
+        emailList.append(lastname + firstname[0] + "@" + company_domain) # adeoyet@merislabs.com
 
-    valid = [item for item in valid if item is not None]
+        emailList.append(firstname + "." + lastname[0] + "@" + company_domain) # tomidea@merislabs.com
+        emailList.append(lastname[0] + "." + firstname + "@" + company_domain) # atomide@merislabs.com
+    
+        emailList.append(firstname[0] + "." + lastname + "@" + company_domain) # tadeoye@merislabs.com
+        emailList.append(lastname + "." + firstname[0] + "@" + company_domain) # adeoyet@merislabs.com
 
-    return valid
+        emailList.append(firstname[0] + lastname[0] + "@" + company_domain) # ta@merislabs.com
+        emailList.append(lastname[0] + firstname[0] + "@" + company_domain) # ta@merislabs.com
+        
+        emailList.append(lastname[0] + "." +  firstname[0] + "@" + company_domain) #t.a@meris.com
+        emailList.append(firstname[0] + "." +  lastname[0] + "@" + company_domain) #t.a@meris.com
+        
+        valid = []
+        for email in emailList:
+            valid.append(cls.mail_checker(email))
 
+        valid = [item for item in valid if item is not None]
 
+        return valid
+
+    @staticmethod
+    def send_email(email_receiver, subject, body, files):
+        now = datetime.datetime.now()
+        email_sender =  os.getenv('email_sender')
+        email_password = os.getenv('email_password')
+        em = EmailMessage()
+        # em = MIMEMultipart()
+        em['From'], em['To'], em['Subject'] = email_sender, email_receiver, subject 
+        em.set_content(body)
+
+        for path in files:
+            with open(path, 'rb') as file:
+                file_data = file.read()
+                file_name = file.name.split('/')[-1]
+            
+            em.add_attachment(file_data, maintype='application', subtype='octet-stream', filename=file_name)
+
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
+            smtp.login(email_sender, email_password)
+            smtp.send_message(em)
+            smtp.quit()
 
 def google_search(query_for_google):
     search_keys = os.getenv("search_keys").split(",") # an array of search keys
@@ -276,26 +287,3 @@ def txt_db_maker(db, content):
 
 def create_csv_file(filename, rows): # createCsvFile('scrfabove103.csv', list, header_list)
     pd.DataFrame(rows).to_csv(f"{filename}.csv", mode='a', header=False, index=False)  
-
-
-# def googleTextToSpeech(text):
-#     """Synthesizes speech from the input string of text."""
-#     from google.cloud import texttospeech
-
-#     client = texttospeech.TextToSpeechClient()
-
-#     input_text = texttospeech.SynthesisInput(text=text)
-
-#     # Note: the voice can also be specified by name.
-#     # Names of voices can be retrieved with client.list_voices().
-#     voice = texttospeech.VoiceSelectionParams(
-#         language_code="en-US",
-#         ss
-
-
-# from gtts import gTTS
-# from playsound import playsound
-# text=input("Enter a sentence : ")
-# speech=gTTS(text=text,lang="en")        #converting to mp3 in English
-# speech.save(r"D:\speech_en.mp3")        #saving the .mp3 file in the given directory
-# playsound(r"D:\speech_en.mp3")          #playing the .mp3 file

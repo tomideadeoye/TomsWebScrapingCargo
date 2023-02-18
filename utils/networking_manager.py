@@ -314,22 +314,18 @@ Also, here is my portfolio/resume (https://tomide-adeoye.netlify.app) - it has a
 def vc_fund_template(name, company):
     return F"""
 Hello {name},
-I hope your year has been amazing! 
+My name is Tomide and I am absolutely thrilled to have been following {company}'s incredible achievements and the successes of your portfolio companies. I am eager to bring my expertise to the table and collaborate with you on devising strategies for reducing costs and increasing profitability in 2023, particularly through expanding into the African markets.
 
-I have been excited to follow {company}'s achievements and the successes of your portfolio companies. I want to be part of how {company} increases profitability in 2023.
+With my background in research, startups, finance, and consulting, as well as my recent postgraduate education at one of Africa's premier management and tech institutions, NUTM (nutmng.org), where I had the privilege of learning from industry leaders such as Soumitra Dutta (Dean, Saïd Business School) and Maurizio Caio (partner, TLcom Capital), I am confident in my ability to provide valuable insights and strategies. My experiences leading teams and working with organizations such as the Smart Contract Research Forum, Web3bridge, PwC, VFD Group, and startups I have consulted with have given me a unique perspective on all aspects of company operations and a deep understanding of the African Web3space. I am excited to use this knowledge to assist {company} in deal flow, portfolio management, and operations.
 
-My name is Tomide; I am an engineer with experience in research, compliance, finance, and consulting. I also recently completed a postgraduate program in one of Africa's finest Management and Tech Institutions, NUTM. Where I was taught by minds like Soumitra Dutta (Dean, Saïd Business School), Maurizio Caio (partner, TLcom Capital) and more.
+I have prepared a draft presentation at bit.ly/tomide-bio that provides more information about me and demonstrates how I have helped other local businesses. My contributions to {company} could include:
 
-My unique blend of experiences leading two teams and working with ogansisations like the Smart Contract Research Forum, PwC, KPMG, VFD Group and startups I have consulted with have allowed me play in all facets of company operations and given me very unique insights. I can assess business strategy in terms of software, business model, regulations... 
+Utilizing analytics, data visualization, and automation to reduce costs and increase profitability,
+Providing expert research and strategy for investments.
 
-I have a draft presentation at https://bit.ly/tomide-bio providing information about me, showing how I have asisted businesses and how I can contribute to {company}'s successes through:
-- data analytics, web scraping and automation for business intelligence,
-- investment research, strategy and writing for thought leadership,
-- design, frontend engineering and data visualisation to allow big picture view of data/decisions
+I would be honored to have the opportunity to work with {company} on a probationary basis and apply my diverse experiences. Can we schedule a time to discuss how we can achieve {company}'s 2023 objectives together?
 
-I would love to work with {company} in 2023 and deploy my experiences towards solving the most critical startups challenges. How can I work with you toward achieving your 2023 objectives? 
-
-Regards,
+Sincerely,
 Tomide.
 """
 
